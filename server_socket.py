@@ -5,6 +5,7 @@
 
 import socket
 import sys
+from thread import *
 
 HOST = '' #Simply implies allow any host connection
 PORT = 8000 #Arbitrary 4 digit number, avoiding using the smaller ports which are designated for system use
@@ -25,14 +26,32 @@ print 'Socket bind complete'
 s.listen(10)
 print 'Socket now listening'
 
-conn, addr = s.accept()
+def client_thread(conn):
+    """
+    Establishes connection the the client and creates threads
+    """
+    conn.send("Welcome to the server. Type a message and press enter: ")
+    
+    while True:
+        #recieve client data
+        data = conn.recv(1024)
+        reply = 'OK...' + data
+        if not data:
+            break
+            
+        conn.sendall(reply)
+        
+    #Close connection after leaving the loop    
+    conn.close()
+    
+while True:
+    #wait to accept a conenction
+    conn, addr = s.accept()
+    #display client information
+    print 'Connected with ' + addr[0] + ':' + str(addr[1])
 
-#display client information
-print 'Connected with ' + addr[0] + ':' + str(addr[1])
+    #start a new thread
+    #Now send information to the client
+    start_new_thread(client_thread, (conn,))
 
-#Now send information to the client
-data = conn.recv(1024)
-conn.sendall(data)
-
-conn.close()
 s.close()
