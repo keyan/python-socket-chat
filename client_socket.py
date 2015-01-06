@@ -1,7 +1,8 @@
 # Client using basic Python socket to connect to google.com and request mainpage
 #
-# Server --> Open socket, bind to an addr, listen for incoming connections, accept connections, read/send
+# Client is a system that connects to a remote system (the Server) to fetch data
 #
+
 import socket
 import sys
 
