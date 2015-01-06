@@ -37,6 +37,7 @@ message = "GET / HTTP/1.1\r\n\r\n"
 try:
     #send the whole string, which is actually an HTTP command to fetch the mainpage
     s.sendall(message)
+    
 except socket.error:
     print 'Send failed'
     sys.exit()
